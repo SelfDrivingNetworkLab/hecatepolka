@@ -6,8 +6,9 @@ Background
 Prerequisities
 
 
-Schedule:
+Schedule - 8th March 2024:
 1) discuss what is the optimization function
+1b)latency loss and bandwidth - monitoring of links
 2) add topology simulation that funnels graph, health and flow data for GNN to learn
 3) Add GNN model for hecate that produces path predictions
 4) produce an API that produces these paths - Do we want optimized per src-dest pair (1 path) or a collection.
