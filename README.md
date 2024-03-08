@@ -29,3 +29,4 @@ how often will hecate and polka talk: Every 2 minutes?
 build a cost model for network
 router has rest api- to configure path
 create a architecture diagram
+Investigate which way to integrate - rabbitmq, pyro, microservices
