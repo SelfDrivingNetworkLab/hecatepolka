@@ -3,3 +3,21 @@ __pycache__/
 
 # Jupyter Notebook
 .ipynb_checkpoints
+data_loader/__MACOSX
+venv/
+**__pycache__
+lib/
+bin/
+*.zip
+default.npy
+runs/
+*.pt
+examples/networkdatasets/processed
+examples/networkdatasets/raw
+.DS_Store
+examples/networkdatasets/.DS_Store
+examples/roadtrafficdata/processed
+examples/roadtrafficdata/raw
+examples/roadtrafficdata/.DS_Store
+raw/
+processed/
