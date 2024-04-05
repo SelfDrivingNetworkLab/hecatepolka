@@ -11,7 +11,7 @@ import pandas as pd
 
 from models.trainer import load_from_checkpoint, model_train, model_test
 from torch_geometric.loader import DataLoader
-from data_loader.dataloader import TrafficDataset, get_splits, distance_to_weight
+from dataloader.dataloader_latraffic import TrafficDataset, get_splits, distance_to_weight
 
 def main():
     """
@@ -40,7 +40,7 @@ def main():
     config['N_SLOT']= config['N_DAY_SLOT'] - (config['N_PRED']+config['N_HIST']) + 1
 
     # Load the weight matrix
-    distances = pd.read_csv('./dataset/PeMSD7_W_228.csv', header=None).values
+    distances = pd.read_csv('../../examples/roadtrafficdata/PeMSD7_W_228.csv', header=None).values
     W = distance_to_weight(distances, gat_version=config['USE_GAT_WEIGHTS'])
     # Load the dataset
     dataset = TrafficDataset(config, W)
