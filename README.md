@@ -7,6 +7,10 @@ Prerequisities
 
 
 Notes - 
+5 th april
+- how longdoes probing take, can we have time-based one, synchronous every 5 min or on-deman asynchrouns,,,
+- asynchronous for link down or not-- not be considered in topology
+- mininet to get the data for traffic data- generate experiment 
 
 
 8th March 2024:
