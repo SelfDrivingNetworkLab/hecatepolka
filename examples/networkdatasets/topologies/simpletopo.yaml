@@ -7,10 +7,18 @@ defaults:
     default_bw: 10
     default_delay: 10ms
     default_loss: 0.1
-regions:
-- name: region1
-- name: region2
+nodes:
+- name: node1
+- name: node2
+- name: node3
+- name: node4
 links:
-- src: region1
-  dst: region2
+- src: node1
+  dst: node2
+- src: node2
+  dst: node4
+- src: node1
+  dst: node3
+- src: node3
+  dst: node4
   
