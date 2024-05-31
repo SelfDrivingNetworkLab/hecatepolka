@@ -79,5 +79,21 @@ def hecate_polka_collab():
     paths=find_all_paths(g, 'node1', 'node4')
     print(paths)
 
+    print("*************************")
+    print("*************************")
+    print("*************************")
+    print("*************************")
+    print("*************************")
+    print("Flow Arrives ....... ")
+    print("*************************")
+    print("*************************")
+    
+    print("Polka asks Hecate which path to take for this flow.....")
+    print("Polka calls------------ Ask_Hecate(flowsize)")
+    print("Hecate returns: [path 1- QoS; Path 2- QoS]   OR [PATH1]")
+    print("Polka chooses Path1")
+
+
+
 
 hecate_polka_collab()
