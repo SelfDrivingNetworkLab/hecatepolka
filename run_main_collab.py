@@ -89,10 +89,15 @@ def hecate_polka_collab():
     print("*************************")
     
     print("Polka asks Hecate which path to take for this flow.....")
-    print("Polka calls------------ Ask_Hecate(flowsize)")
+   
+
+    print("Polka calls------------ Ask_Hecate(flowid/flowsize)")
     print("Hecate returns: [path 1- QoS; Path 2- QoS]   OR [PATH1]")
     print("Polka chooses Path1")
 
+Every 10 min() Cron job - new API
+ Recall train hecate on new data
+ Hecate save new model
 
 
 
