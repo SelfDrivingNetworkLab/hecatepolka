@@ -1,0 +1,387 @@
+{
+  "data": {
+    "mapTopology": {
+      "nodes": [
+        {
+          "name": "A",
+          "posx": 0.25,
+          "posy": 0.75
+        },
+        {
+          "name": "B",
+          "posx": 0.25,
+          "posy": 0.25
+        },
+        {
+          "name": "C",
+          "posx": 0.75,
+          "posy": 0.75
+        },
+        {
+          "name": "D",
+          "posx": 0.75,
+          "posy": 0.25
+        },
+        {
+          "name": "E",
+          "posx": 0.4,
+          "posy": 0.5
+        },
+        {
+          "name": "F",
+          "posx": 0.6,
+          "posy": 0.5
+        },
+        {
+          "name": "G",
+          "posx": 0.6,
+          "posy": 0.5
+        },
+        {
+          "name": "H",
+          "posx": 0.6,
+          "posy": 0.5
+        },
+        {
+          "name": "I",
+          "posx": 0.6,
+          "posy": 0.5
+        },
+        {
+          "name": "J",
+          "posx": 0.6,
+          "posy": 0.5
+        },
+        {
+          "name": "K",
+          "posx": 0.6,
+          "posy": 0.5
+        },
+        {
+          "name": "L",
+          "posx": 0.6,
+          "posy": 0.5
+        },
+        {
+          "name": "M",
+          "posx": 0.6,
+          "posy": 0.5
+        },
+        {
+          "name": "N",
+          "posx": 0.6,
+          "posy": 0.5
+        },
+        {
+          "name": "O",
+          "posx": 0.6,
+          "posy": 0.5
+        },
+        {
+          "name": "P",
+          "posx": 0.6,
+          "posy": 0.5
+        },
+        {
+          "name": "Q",
+          "posx": 0.6,
+          "posy": 0.5
+        },
+        {
+          "name": "R",
+          "posx": 0.6,
+          "posy": 0.5
+        },
+        {
+          "name": "S",
+          "posx": 0.6,
+          "posy": 0.5
+        },
+        {
+          "name": "T",
+          "posx": 0.6,
+          "posy": 0.5
+        },
+        {
+          "name": "U",
+          "posx": 0.6,
+          "posy": 0.5
+        },
+        {
+          "name": "V",
+          "posx": 0.6,
+          "posy": 0.5
+        },
+        {
+          "name": "W",
+          "posx": 0.6,
+          "posy": 0.5
+        },
+        {
+          "name": "X",
+          "posx": 0.6,
+          "posy": 0.5
+        },
+        {
+          "name": "Y",
+          "posx": 0.6,
+          "posy": 0.5
+        },
+        {
+          "name": "Z",
+          "posx": 0.6,
+          "posy": 0.5
+        }
+        ]
+        , 
+        "edges":[
+          {
+            "name":"edge1",
+            "from":"A",
+            "to":"C",
+            "BW":1000,
+            "Lat":3
+          },
+          {
+            "name":"edge2",
+            "from":"A",
+            "to":"Q",
+            "BW":1000,
+            "Lat":6
+          },
+          {
+            "name":"edge3",
+            "from":"B",
+            "to":"C",
+            "BW":1200,
+            "Lat": 8
+          },
+          {
+            "name":"edge4",
+            "from":"B",
+            "to":"H",
+            "BW":1000,
+            "Lat":3
+          },
+          {
+            "name":"edge5",
+            "from":"C",
+            "to":"D",
+            "BW":1000,
+            "Lat":6
+          },
+          {
+            "name":"edge6",
+            "from":"C",
+            "to":"I",
+            "BW":1200,
+            "Lat":3
+          },
+          {
+            "name":"edge7",
+            "from":"C",
+            "to":"P",
+            "BW":1000,
+            "Lat":8
+          },
+          {
+            "name":"edge8",
+            "from":"D",
+            "to":"E",
+            "BW":1200,
+            "Lat":3
+          },
+          {
+            "name":"edge9",
+            "from":"E",
+            "to":"F",
+            "BW":1200,
+            "Lat":3
+          },
+          {
+            "name":"edge10",
+            "from":"E",
+            "to":"G",
+            "BW":1200,
+            "Lat":3
+          },
+          {
+            "name":"edge11",
+            "from":"F",
+            "to":"G",
+            "BW":1200,
+            "Lat":3
+          },
+          {
+            "name":"edge12",
+            "from":"G",
+            "to":"J",
+            "BW":1200,
+            "Lat":3
+          },
+          {
+            "name":"edge13",
+            "from":"H",
+            "to":"I",
+            "BW":1200,
+            "Lat":3
+          },
+          {
+            "name":"edge14",
+            "from":"I",
+            "to":"J",
+            "BW":1200,
+            "Lat":3
+          },
+          {
+            "name":"edge15",
+            "from":"J",
+            "to":"K",
+            "BW":1200,
+            "Lat":3
+          },
+          {
+            "name":"edge16",
+            "from":"J",
+            "to":"W",
+            "BW":1200,
+            "Lat":3
+          },
+          {
+            "name":"edge17",
+            "from":"K",
+            "to":"L",
+            "BW":1200,
+            "Lat":3
+          },
+          {
+            "name":"edge18",
+            "from":"L",
+            "to":"X",
+            "BW":1200,
+            "Lat":3
+          },
+          {
+            "name":"edge19",
+            "from":"M",
+            "to":"N",
+            "BW":1200,
+            "Lat":3
+          },
+          {
+            "name":"edge20",
+            "from":"M",
+            "to":"Q",
+            "BW":1200,
+            "Lat":3
+          },
+          {
+            "name":"edge21",
+            "from":"N",
+            "to":"O",
+            "BW":1200,
+            "Lat":3
+          },
+          {
+            "name":"edge22",
+            "from":"O",
+            "to":"P",
+            "BW":1200,
+            "Lat":3
+          },
+          {
+            "name":"edge23",
+            "from":"P",
+            "to":"U",
+            "BW":1200,
+            "Lat":3
+          },
+          {
+            "name":"edge24",
+            "from":"Q",
+            "to":"R",
+            "BW":1200,
+            "Lat":3
+          },
+          {
+            "name":"edge25",
+            "from":"Q",
+            "to":"S",
+            "BW":1200,
+            "Lat":3
+          },
+          {
+            "name":"edge26",
+            "from":"R",
+            "to":"S",
+            "BW":1200,
+            "Lat":3
+          },
+          {
+            "name":"edge27",
+            "from":"R",
+            "to":"T",
+            "BW":1200,
+            "Lat":3
+          },
+          {
+            "name":"edge28",
+            "from":"T",
+            "to":"U",
+            "BW":1200,
+            "Lat":3
+          },
+          {
+            "name":"edge29",
+            "from":"U",
+            "to":"V",
+            "BW":1200,
+            "Lat":3
+          },
+          {
+            "name":"edge30",
+            "from":"U",
+            "to":"W",
+            "BW":1200,
+            "Lat":3
+          },
+          {
+            "name":"edge31",
+            "from":"V",
+            "to":"W",
+            "BW":1200,
+            "Lat":3
+          },
+          {
+            "name":"edge32",
+            "from":"W",
+            "to":"X",
+            "BW":1200,
+            "Lat":3
+          },
+          {
+            "name":"edge33",
+            "from":"X",
+            "to":"Y",
+            "BW":1200,
+            "Lat":3
+          },
+          {
+            "name":"edge34",
+            "from":"X",
+            "to":"Z",
+            "BW":1200,
+            "Lat":3
+          },
+          {
+            "name":"edge35",
+            "from":"Y",
+            "to":"Z",
+            "BW":1200,
+            "Lat":3
+          }
+          ]
+    }
+  
+  }
+}

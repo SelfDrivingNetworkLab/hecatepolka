@@ -11,7 +11,9 @@ import time
 import pandas as pd
 import numpy as np
 
-topology_file="examples/networkdatasets/topologies/simpletopo.yaml"
+#topology_file="examples/networkdatasets/topologies/simpletopo.yaml"
+topology_file="../hecate/data/topologyzoo/sc24polkatopo.json"
+
 
 def find_all_paths(graph, start, end):
     path  = []

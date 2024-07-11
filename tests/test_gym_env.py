@@ -1,34 +1,42 @@
 #!/usr/bin/env python
-# coding: utf-8
+# -*- coding: utf-8 -*-
 
 import random
 import gym
+import os.path
 import sys
-import gym_deeproute_stat
+sys.path.append('/Users/9mk/softwares/GitHub/hecatepolka/hecate/')
+#sys.path.append('..\..')
 
-MAX_TICKS = 10
+from hecate.gym.envs.rteenv import RTEEnv
+
+EPISODES = 10
 total_reward = 0
 
-env = gym.make('Deeproute-stat-v0')
-
-observation = env.reset()
-
-print('Initial State:', observation)
-
-# sys.exit()
-
-for t in range (MAX_TICKS):
-	action = env.action_space.sample()
-	observation, reward, done = env.step(action)
-	total_reward += reward
-	print('Ticks:', t+1)
-	print('Action:', action) 
-	print('Ob:', observation) 
-	print('R:', reward)
+def test_gym_env():
+    print(sys.path)
+    topology_file="../hecate/data/topologyzoo/sc24polkatopo.json"
+    env = RTEEnv(topology_file)
+    
+    #env = gym.make('Deeproute-stat-v0')
 
 
+    print("here")
+    observation = env.reset()
+    print('Initial State:', observation)
+    
+    for t in range (EPISODES):
+	    action = env.action_space.sample()
+	    observation, reward, done = env.step(action)
+	    total_reward += reward
+	    print('Episode:', t+1)
+	    print('Action:', action) 
+	    print('Ob:', observation) 
+	    print('R:', reward)
+	
+    print("Episode Finished  after {} timesteps".format(t+1))
 
+    env.cleanup()
 
-print("Episode Finished  after {} timesteps".format(t+1))
-
-env.cleanup()
+if __name__== "__main__":
+      test_gym_env()

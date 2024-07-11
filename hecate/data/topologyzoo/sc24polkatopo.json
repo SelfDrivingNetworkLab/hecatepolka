@@ -1,0 +1,69 @@
+{
+    "data": {
+      "mapTopology": {
+        "nodes": [
+          {
+            "name": "A",
+            "posx": 0.25,
+            "posy": 0.75
+          },
+          {
+            "name": "B",
+            "posx": 0.25,
+            "posy": 0.25
+          },
+          {
+            "name": "C",
+            "posx": 0.75,
+            "posy": 0.75
+          },
+          {
+            "name": "D",
+            "posx": 0.75,
+            "posy": 0.25
+          }
+          ]
+          , 
+          "edges":[
+            {
+              "name":"edge1",
+              "from":"A",
+              "to":"B",
+              "BW":1000,
+              "Lat":3
+            },
+            {
+              "name":"edge2",
+              "from":"A",
+              "to":"C",
+              "BW":1000,
+              "Lat":6
+            },
+            {
+               "name":"edge4",
+               "from":"C",
+               "to":"B",
+               "BW":1000,
+               "Lat":3
+            },
+            {
+               "name":"edge5",
+               "from":"A",
+               "to":"D",
+               "BW":1000,
+               "Lat":7
+            },
+            {
+               "name":"edge6",
+               "from":"D",
+               "to":"B",
+               "BW":1200,
+               "Lat":3
+            }
+
+            
+            ]
+      }
+    
+    }
+  }
