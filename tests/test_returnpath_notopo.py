@@ -76,5 +76,16 @@ def test_path_predictor():
     plt.xlabel('Time')
     plt.ylabel('Values')
     plt.show()
+    return forecast
 
-test_path_predictor()
+
+def return_bestpath():
+    forecasts=test_path_predictor() # get data and predict future values
+    print(forecasts[0].sum())
+    #for i in forecasts:
+        #bw_path=
+    print("For Flow size 10, best path is ")
+
+
+
+return_bestpath()
