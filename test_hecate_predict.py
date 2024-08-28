@@ -14,11 +14,11 @@ import numpy as np
 #topology_file="examples/networkdatasets/topologies/simpletopo.yaml"
 default_topology_file="../hecate/data/topologyzoo/sc24polkatopo.json"
 
-pathAdata={time= x, bw = y, lat = z,
+pathAdata={time= 0,  bw = y, lat = z
            time = 1, bw=ab, lat=z1}
  
-pathBdata={time= x, bw = y, lat = z,
-           time = 1, bw=ab, lat=z1}
+pathBdata={time= x, bw = y, lat = z, fct=1
+           time = 1, bw=ab, lat=z1, fct=3}
  
 
 def find_all_paths(graph, start, end):
@@ -68,12 +68,16 @@ def create_topology(topology_file):
 
 #2 path case simple case here
 
-def test_hecate_predict(topology_file,path1data,path2data, allocate_flow_size):
+def test_hecate_predict(topology_file,[path1data,path2data], allocate_flow_size):
 
     print("*******Topology is created, Polka has developed paths")
     g=create_topology(topology_file)
 
-    
+    allocate_flow_size= (ID, src, dest ,size)
+
+    reward = [network usage utilization (min max, congested links)]
+   
+
     if allocate_flow_size<=path1data.bw:
         print("select path1")
     else:
