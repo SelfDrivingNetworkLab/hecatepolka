@@ -1,6 +1,3 @@
-
-
-
 functions
   info
     topology
