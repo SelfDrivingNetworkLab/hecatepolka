@@ -1,0 +1,30 @@
+# <host>:<port>:<flow>
+#
+# hosts
+# 1 = MIA
+# 2 = SAO
+# 3 = AMS
+# 4 = CHI
+# 5 = CAL
+# 6 = MIA_edge
+# 7 = AMS_edge
+# 8 = host1
+# 9 = host2
+#
+# ports
+# eth0 = enp0s3
+# eth1 = enp0s8
+# eth2 = enp0s9
+# eth3 = enp0s10
+# eth4 = enp0s16
+# eth5 = enp0s17
+#
+# flows
+# 2=out
+# 3=in
+#
+2:enp0s8:3
+3:enp0s10:3
+4:enp0s8:3
+5:enp0s8:3
+7:enp0s8:3

@@ -1,0 +1,93 @@
+hostname CHI
+!
+vrf def v1
+ rd 1:1
+ exit
+!
+server telnet tel
+ security protocol tel
+ vrf v1
+ exit
+!
+router ospf4 1
+ vrf v1
+ router-id 10.1.1.4
+ traffeng-id 0.0.0.0
+ segrout 20
+ area 0 enable
+ area 0 segrout
+ redistribute connected
+ exit
+!
+interface template1
+ no description
+ vrf forwarding v1
+ ipv4 address dynamic dynamic
+ lldp enable
+ polka enable 4 65536 20
+ shutdown
+ exit
+!
+int lo0
+ template template1
+ vrf forwarding v1
+ ipv4 addr 20.20.0.4 255.255.255.255
+ polka enable 4 65536 20
+ mpls enable
+ router ospf4 1 enable
+ router ospf4 1 area 0
+ router ospf4 1 passive
+ router ospf4 1 segrout index 4
+ router ospf4 1 segrout node
+ no shutdown
+ exit
+!
+int eth1
+ template template1
+ vrf forwarding v1
+ description CHI@eth1 -> MIA@eth2
+ ipv4 addr 10.10.2.2 255.255.255.0
+ polka enable 4 65536 20
+ mpls enable
+ router ospf4 1 enable
+ router ospf4 1 area 0
+ no shutdown
+ exit
+!
+int eth2
+ template template1
+ vrf forwarding v1
+ description CHI@eth2 -> AMS@eth3
+ ipv4 addr 10.10.7.2 255.255.255.0
+ polka enable 4 65536 20
+ mpls enable
+ router ospf4 1 enable
+ router ospf4 1 area 0
+ no shutdown
+ exit
+!
+int eth3
+ template template1
+ vrf forwarding v1
+ description CHI@eth3 -> CAL@eth2
+ ipv4 addr 10.10.8.1 255.255.255.0
+ polka enable 4 65536 20
+ mpls enable
+ router ospf4 1 enable
+ router ospf4 1 area 0
+ no shutdown
+ exit
+!
+!
+!
+logging buffered debug 10240
+logging file debug /var/log/freertr.log
+logging rotate 655360000 /var/log/freertr.old
+!
+server telnet v1
+ security protocol telnet
+ exec logging
+ login logging
+ vrf v1
+ exit
+!

@@ -1,0 +1,146 @@
+hostname MIA_edge
+!
+vrf def v1
+ rd 1:1
+ exit
+!
+access-list flow1
+ sequence 10 permit all 40.40.1.0 255.255.255.0 all 40.40.2.2 255.255.255.255 all tos 32
+ !sequence 10 permit  1 40.40.1.0 255.255.255.0 all 40.40.2.2 255.255.255.255 all tos 32
+ !sequence 20 permit  6 40.40.1.0 255.255.255.0 all 40.40.2.2 255.255.255.255 all tos 32 
+ !sequence 30 permit 17 40.40.1.0 255.255.255.0 all 40.40.2.2 255.255.255.255 all tos 32
+ exit
+!
+access-list flow2
+ sequence 10 permit all 40.40.1.0 255.255.255.0 all 40.40.2.2 255.255.255.255 all tos 64
+ !sequence 10 permit  1 40.40.1.0 255.255.255.0 all 40.40.2.2 255.255.255.255 all tos 64
+ !sequence 20 permit  6 40.40.1.0 255.255.255.0 all 40.40.2.2 255.255.255.255 all tos 64
+ !sequence 30 permit 17 40.40.1.0 255.255.255.0 all 40.40.2.2 255.255.255.255 all tos 64
+ exit
+!
+access-list flow3
+ sequence 10 permit all 40.40.1.0 255.255.255.0 all 40.40.2.2 255.255.255.255 all tos 128
+ !sequence 10 permit  1 40.40.1.0 255.255.255.0 all 40.40.2.2 255.255.255.255 all tos 128
+ !sequence 20 permit  6 40.40.1.0 255.255.255.0 all 40.40.2.2 255.255.255.255 all tos 128
+ !sequence 30 permit 17 40.40.1.0 255.255.255.0 all 40.40.2.2 255.255.255.255 all tos 128
+ exit
+!
+server telnet tel
+ security protocol tel
+ vrf v1
+ exit
+!
+router ospf4 1
+ vrf v1
+ router-id 10.1.1.6
+ traffeng-id 0.0.0.0
+ segrout 20
+ area 0 enable
+ area 0 segrout
+ redistribute connected
+ exit
+!
+interface template1
+ no description
+ vrf forwarding v1
+ ipv4 address dynamic dynamic
+ lldp enable
+ polka enable 6 65536 20
+ shutdown
+ exit
+!
+int lo0
+ template template1
+ vrf forwarding v1
+ ipv4 addr 20.20.0.6 255.255.255.255
+ polka enable 6 65536 20
+ mpls enable
+ router ospf4 1 enable
+ router ospf4 1 area 0
+ router ospf4 1 passive
+ router ospf4 1 segrout index 6
+ router ospf4 1 segrout node
+ no shutdown
+ exit
+!
+int eth1
+ template template1
+ vrf forwarding v1
+ description MIA_edge@eth1 -> MIA@eth4
+ ipv4 addr 10.10.4.2 255.255.255.0
+ polka enable 6 65536 20
+ mpls enable
+ router ospf4 1 enable
+ router ospf4 1 area 0
+ no shutdown
+ exit
+!
+int eth2
+ template template1
+ vrf forwarding v1
+ description MIA_edge@eth2 -> host1@eth1
+ ipv4 addr 40.40.1.1 255.255.255.0
+ polka enable 6 65536 20
+ mpls enable
+ router ospf4 1 enable
+ router ospf4 1 area 0
+ no shutdown
+ exit
+!
+interface tunnel1
+ description POLKA tunnel MIA -> SAO -> AMS
+ tunnel vrf v1
+ tunnel source loopback0
+ tunnel destination 20.20.0.7
+ tunnel domain-name 20.20.0.1 20.20.0.2 20.20.0.3
+ tunnel mode polka
+ vrf forwarding v1
+ ipv4 address 30.30.1.1 255.255.255.252
+ no shutdown
+ no log-link-change
+ exit
+!
+interface tunnel2
+ description POLKA tunnel MIA -> CHI -> AMS
+ tunnel vrf v1
+ tunnel source loopback0
+ tunnel destination 20.20.0.7
+ tunnel domain-name 20.20.0.1 20.20.0.4 20.20.0.3
+ tunnel mode polka
+ vrf forwarding v1
+ ipv4 address 30.30.2.1 255.255.255.252
+ no shutdown
+ no log-link-change
+ exit
+!
+interface tunnel3
+ description POLKA tunnel MIA -> CAL -> CHI -> AMS
+ tunnel vrf v1
+ tunnel source loopback0
+ tunnel destination 20.20.0.7
+ tunnel domain-name 20.20.0.1 20.20.0.5 20.20.0.4 20.20.0.3
+ tunnel mode polka
+ vrf forwarding v1
+ ipv4 address 30.30.3.1 255.255.255.252
+ no shutdown
+ no log-link-change
+ exit
+!
+!
+ipv4 pbr v1 sequence 10 flow1 v1 nexthop 30.30.1.2
+ipv4 pbr v1 sequence 20 flow2 v1 nexthop 30.30.1.2
+ipv4 pbr v1 sequence 30 flow3 v1 nexthop 30.30.1.2
+!
+!
+!
+logging buffered debug 10240
+logging file debug /var/log/freertr.log
+logging rotate 655360000 /var/log/freertr.old
+!
+server telnet v1
+ security protocol telnet
+ exec logging
+ login logging
+ vrf v1
+ exit
+!

@@ -1,0 +1,291 @@
+<html>
+	<head>
+		<script src='https://cdn.plot.ly/plotly-2.30.0.min.js'></script>
+	</head>
+	<style>
+		.visible-bar {
+			display: block;
+		}
+		.invisible-bar {
+			display: none;
+		}
+		.menuitem-sel {
+			cursor: pointer;
+			background: #C0C0C0;
+		}
+		.menuitem {
+			cursor: pointer;
+			background: #FFFFFF;
+		}
+	</style>
+	<body>
+		<table border=1 width=100% height=100%>
+			<tr>
+				<td width=50% height=60%>
+					<table border=1 width=100% height=100%>
+						<tr height=20px>
+							<td width=30% id='menu-routers' class='menuitem-sel' onclick="changetab('routers')">Router</td>
+							<td width=30% id='menu-tunnels' class='menuitem' onclick="changetab('tunnels')">Tunnels</td>
+							<td width=30% id='menu-accesslist' class='menuitem' onclick="changetab('accesslist')">Access List</td>
+						</tr>
+						<tr>
+							<td colspan=3>
+								<div class='visible-bar' id='div-routers'></div>
+								<div class='invisible-bar' id='div-tunnels'></div>
+								<div class='invisible-bar' id='div-accesslist'></div>
+							</td>
+						</tr>
+					</table>
+				</td>
+				<td width=50% height=60%>
+					<div id='graph_bandwidth'></div>
+				</td>
+			</tr>
+			<tr>
+				<td width=50% height=30%>
+					<img src='static/topology.png' height=300>
+				</td>
+				<td width=50% height=30%>
+					<div id='graph_latency'></div>
+				</td>
+			</tr>
+		</table>
+		<script>
+/*
+function changePath(flowname) {
+	flowvalue = document.getElementById(flowname).value;
+	fetch("/cgi-bin/change.py?" + flowname + ";" + flowvalue);
+}
+
+  var trace1 = {
+  x: Array(100),
+  y: Array(100),
+  type: 'scatter',
+  name: 'MIA-SAO',
+  line: {
+    color: 'rgb(246, 211, 45)',
+    width: 3
+  }
+};*/
+
+const colors = [
+    'rgb(246, 211, 45)',
+    'rgb(0, 204, 0)',
+    'rgb(255, 0, 0)',
+    'rgb(0, 0, 255)',
+    'rgb(128, 0, 128)'
+    ];
+
+var tab_active = 'routers';
+var selected_router = '';
+
+var layout_bandwidth = {
+	autosize: false,
+	width: 700,
+	height: 400,
+	title: {
+		text:'Flow',
+		font: {
+			family: 'Courier New, monospace',
+			size: 12
+		},
+		yref: 'container',
+		automargin: true,
+	},
+	legend: {
+		font: {
+			family: 'sans-serif',
+			size: 8,
+		},
+	},
+	margin: {
+		autoexpand: true,
+	}
+};
+
+var layout_latency = {
+	autosize: false,
+	width: 700,
+	height: 250,
+	title: {
+		text:'Latency',
+		font: {
+			family: 'Courier New, monospace',
+			size: 12
+		},
+		yref: 'container',
+		automargin: true,
+	},
+	legend: {
+		font: {
+			family: 'sans-serif',
+			size: 8,
+		},
+	}
+};
+
+var data_bandwidth = [];
+var data_latency = [];
+var tunnel_dict = {};
+
+//Plotly.newPlot('myDiv', data, layout);
+
+function setdata(j, data, datatype) {
+	cor = 0;
+	data = []
+	jdata = j.lines;
+	for(c = 0; c<jdata.length; c++) {
+		data[c] = new Object();
+		data[c].type = 'scatter';
+		data[c].name = jdata[c].name;
+		data[c].line = { 'color': colors[cor++], 'width': 3};
+		var x = [];
+		var y = [];
+		for(d = 0; d<100; d++) {
+			x[d] = d;
+			y[d] = jdata[c].data[d];
+		}
+		data[c].x = x;
+		data[c].y = y;
+	}
+	if(datatype == 'bandwidth') {
+		Plotly.newPlot('graph_bandwidth', data, layout_bandwidth);
+	} else {
+		Plotly.newPlot('graph_latency', data, layout_latency);
+	}
+}
+
+function define_router(routername) {
+	if (selected_router != routername) {
+		document.getElementById('div-tunnels').innerHTML = '';
+		document.getElementById('div-accesslist').innerHTML = '';
+	}
+	selected_router = routername;
+	document.getElementById('menu-routers').innerHTML = 'Router: ' + routername;
+	fetch("/update-router?router=" + selected_router);
+	fetch("/table-tunnels?router=" + selected_router)
+		.then((response) => response.json())
+		.then((json) => settable(json, 'tunnels'));
+	fetch("/table-accesslist?router=" + selected_router)
+		.then((response) => response.json())
+		.then((json) => settable(json, 'accesslist'));
+}
+
+function strIntArray(addr) {
+	r=[0,0,0,0];
+	a=addr.split('.');
+	for(c=0;c<4;c++) {
+		r[c]=parseInt(a[c]);
+	}
+	return(r);
+}
+
+function get_net_address(ip, mask) {
+	r=[0,0,0,0];
+	a_ip=strIntArray(ip);
+	a_mask=strIntArray(mask);
+	for(c=0;c<4;c++) {
+		r[c]=a_ip[c] & a_mask[c];
+	}
+	return(r.join('.'));
+}
+
+function same_net(access_ip) {
+	for (const [tunnel_name, ip] of Object.entries(tunnel_dict)) {
+		net_dst=get_net_address(access_ip, ip.mask);
+		net_tun=get_net_address(ip.address, ip.mask);
+		if(net_dst==net_tun) {
+			return(tunnel_name);
+		}
+	}
+	return("-")
+}
+
+function settable(j, tabname) {
+	result = '<table border=1 width=100% height=100%>';
+	jdata = j.lines;
+	switch(tabname) {
+	case 'routers':
+		result += '<tr><td>Router</td><td>Address</td><td>Port</td></tr>';
+		for(c = 0; c<jdata.length; c++) {
+			result += '<tr><td><a href=# onclick=define_router("' + jdata[c].router + '");>' + jdata[c].router + '</a></td>'
+				+ '<td>' + jdata[c].address + '</td>'
+				+ '<td>' + jdata[c].port + '</td></tr>';
+		}
+		break;
+	case 'tunnels':
+		tunnel_dict={}
+		result += '<tr><td>Tunnel</td><td>Address</td><td>Path</td></tr>';
+		for(c = 0; c<jdata.length; c++) {
+			tunnel_dict[jdata[c].id]={ 'address': jdata[c].address, 'mask': jdata[c].mask };
+			result += '<tr><td>' + jdata[c].id + '</td>'
+				+ '<td>' + jdata[c].address + '/' + jdata[c].mask + '</td>'
+				+ '<td>' + jdata[c].path + '</td></tr>';
+		}
+		break;
+	case 'accesslist':
+		result += '<tr><td>Accesslist</td><td>Seq</td><td>Address</td><td>Tunnel</td></tr>';
+		for(let z = 0; z<jdata.length; z++) {
+			id=jdata[z].id;
+			seq=jdata[z].seq;
+			address=jdata[z].address;
+			tunnel_name=same_net(jdata[z].address);
+			result += '<tr><td>' + id + '</td>'
+				+ '<td>' + seq + '</td>'
+				+ '<td>' + address + '</td>'
+				+ '<td>' + tunnel_name + '</td></tr>';
+		}
+		break;
+	}
+	result += '</table>'
+	document.getElementById('div-' + tabname).innerHTML = result;
+}
+
+setInterval( function() {
+	fetch("/data-bandwidth")
+		.then((response) => response.json())
+		.then((json) => setdata(json, data_bandwidth, 'bandwidth'));
+	}, 2000);
+
+setInterval( function() {
+	fetch("/data-latency")
+		.then((response) => response.json())
+		.then((json) => setdata(json, data_latency, 'latency'));
+	}, 2000);
+
+setInterval( function() {
+	fetch("/update-router");
+	}, 2000);
+
+setInterval( function() {
+	fetch("/table-" + tab_active + "?router=" + selected_router)
+		.then((response) => response.json())
+		.then((json) => settable(json, tab_active));
+	}, 2000);
+
+function changetab(tabname) {
+	if (selected_router == '') {
+		alert('Selecione um roteador.');
+		tabname = 'routers';
+	}
+	tab_active = tabname;
+	Array.from(document.getElementsByClassName("visible-bar")).forEach((item) => {
+		item.classList.remove("visible-bar");
+		item.classList.add("invisible-bar");
+	});
+	Array.from(document.getElementsByClassName("menuitem-sel")).forEach((item) => {
+		item.classList.remove("menuitem-sel");
+		item.classList.add("menuitem");
+	});
+
+	selected_bar = document.getElementById('div-' + tabname);
+	selected_bar.classList.remove("invisible-bar");
+	selected_bar.classList.add("visible-bar");
+
+	selected_bar = document.getElementById('menu-' + tabname);
+	selected_bar.classList.remove("menuitem");
+	selected_bar.classList.add("menuitem-sel");
+}
+		</script>
+	</body>
+</html>

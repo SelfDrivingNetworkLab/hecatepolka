@@ -1,0 +1,39 @@
+
+
+
+functions
+  info
+    topology
+      <queue>
+    telemetry
+      <queue>
+  list
+    router
+      <queue>
+    tunnel
+      <queue>;<router.id>
+    accesslist
+      <queue>;<router.id>
+    accesstunnel
+      <queue>;<router.id>;<accesslist_id>
+    tunnelaccess
+      <queue>;<router.id>;<tunnel_id>
+  set
+    router
+      <id>;<address>;<port>
+    tunnel
+      <router.id>;<id>;<address>;<mask>;<path>
+    accesslist
+      <router.id>;<id>;<address_in>;<mask_in>;<address_out>;<mask_out>;<tos>
+    accesstunnel
+      <router.id>;<accesslist.id>;<ip_destiny>
+  del
+    router
+      <router.id>
+    tunnel
+      <router.id>;<tunnel.id>
+    accesslist
+      <router.id>;<accesslist.id>
+    accesstunnel
+      <router.id>;<accesslist.id>
+

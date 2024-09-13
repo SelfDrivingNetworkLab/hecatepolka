@@ -1,0 +1,5 @@
+#!/bin/bash
+
+cd /rtr
+./update.sh $1 $2
+./rtr.sh

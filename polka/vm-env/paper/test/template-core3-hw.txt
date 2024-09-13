@@ -1,0 +1,8 @@
+hwid core3
+tcp2vrf 23 v1 23
+proc ifc1.sh /rtr/pcapInt.bin {eth1_MAP} 20012 127.0.0.1 20011 127.0.0.1
+int eth1 stat eth {eth1_MAC} 127.0.0.1 20011 127.0.0.1 20012
+proc ifc2.sh /rtr/pcapInt.bin {eth2_MAP} 20022 127.0.0.1 20021 127.0.0.1
+int eth2 stat eth {eth2_MAC} 127.0.0.1 20021 127.0.0.1 20022
+proc ifc3.sh /rtr/pcapInt.bin {eth3_MAP} 20032 127.0.0.1 20031 127.0.0.1
+int eth3 stat eth {eth3_MAC} 127.0.0.1 20031 127.0.0.1 20032

@@ -1,0 +1,5 @@
+enp0s8:eth1
+enp0s9:eth2
+enp0s10:eth3
+enp0s16:eth4
+enp0s17:eth5
