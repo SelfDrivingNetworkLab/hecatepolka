@@ -1,3 +1,6 @@
+
+#Polka retuns (BW, latency) per path saved in database
+
 import os
 import sys
 import time
