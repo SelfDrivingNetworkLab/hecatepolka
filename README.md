@@ -1,3 +1,6 @@
+Ref: https://docs.google.com/document/d/1a8TP_lQyse3UJDXYtD7n-0KfSaipqUY96KTUQUj77hs/edit?usp=sharing
+
+
 # hecatepolka
 This is a joint effort between Hecate and Polka teams.
 
